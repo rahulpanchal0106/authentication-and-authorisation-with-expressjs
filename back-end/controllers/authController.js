@@ -74,18 +74,15 @@ const register = async (req, res) => {
             return res.status(400).json({ message: "Invalid Request" })
         }
 
-        // Check if user already exists
         let user = await UserModel.findOne({ where: { username: username } })
 
         if (user) {
             return res.status(400).json({ message: "User already exists" })
         }
 
-        // Password Hashing
         const salt = await bcrypt.genSalt(10)
         password = await bcrypt.hash(password, salt)
 
-        // Create new user
         user = await UserModel.create({
             username: username,
             password: password,
@@ -103,13 +100,11 @@ const register = async (req, res) => {
 
 const load_user_profile = async (req, res) => {
     try {
-        let user_id = await get_user_id(req) // Get user id from JWT token by the helper function
+        let user_id = await get_user_id(req)
 
         if (!user_id) {
             return res.status(400).json({ message: "Invalid Request", ok: false, })
         }
-
-
 
         let user = await UserModel.findOne({
             where: {
@@ -132,7 +127,7 @@ const load_user_profile = async (req, res) => {
 
 const update_user_profile = async (req, res) => {
     try {
-        let user_id = await get_user_id(req) // Get user id from JWT token by the helper function
+        let user_id = await get_user_id(req)
 
         if (!user_id) {
             return res.status(400).json({ message: "Invalid Request", ok: false, })

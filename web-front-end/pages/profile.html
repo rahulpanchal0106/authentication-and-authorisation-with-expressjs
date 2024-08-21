@@ -71,6 +71,7 @@
             event.preventDefault();
             const username = document.getElementById("other-username").value;
             
+            
             const response = await fetch(`http://127.0.0.1:4001/auth/delete/user`, {
                 method: "PUT",
                 headers: {
@@ -81,7 +82,11 @@
             });
             const result = await response.json();
             if (response.ok) {
-                alert('User deleted successfully');
+                if(username==document.getElementById('username').value){
+                    alert("You have deleted yourself!")
+                }else{
+                    alert(`You deleted ${username} `)
+                }
             } else {
                 alert(result.message);
             }
